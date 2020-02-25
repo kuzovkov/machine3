@@ -9,7 +9,7 @@ services:
     #image: kuzovkov/machine3-ubuntu:latest
     volumes:
       - ./ubuntu/app:/usr/src/app
-      - ./ubuntu/data:/data
+      - ./ubuntu/data:/datasave-maxmin-courses
       - /dev/shm:/dev/shm
     dns: 8.8.8.8
     ports:
