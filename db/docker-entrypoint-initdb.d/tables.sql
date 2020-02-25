@@ -1,19 +1,15 @@
-CREATE TABLE IF NOT EXISTS courses
-(
-  id serial PRIMARY KEY,
-  symbol VARCHAR (255) NOT NULL,
-  price REAL NOT NULL,
-  time_stamp BIGINT NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
-);
+DROP table  symbol;
 
 CREATE TABLE public.symbol (
-  id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('symbol_id_seq'::regclass),
+  id BIGSERIAL NOT NULL,
   name CHARACTER VARYING(100),
   scode CHARACTER VARYING(50),
   updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   price NUMERIC(9,6)
 );
+
+ALTER TABLE public.symbol OWNER TO parser;
+create unique index index_symbol_id on public.symbol(scode);
 
 CREATE FUNCTION check_symbol_update() RETURNS trigger AS '
 BEGIN

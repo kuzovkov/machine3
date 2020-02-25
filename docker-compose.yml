@@ -18,7 +18,7 @@ services:
     user: apps
 
   db:
-    image: postgres:12.1
+    image: postgres:10.6
     environment:
       POSTGRES_PASSWORD: Admin123456
       POSTGRES_USER: postgres
@@ -32,28 +32,6 @@ services:
     ports:
       - "35432:5432"
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
-
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
-    environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: MyStrong@Passw0rd
-    ports:
-      - "1433:1433"
-
-  mysql:
-     image: mysql:5.7
-     volumes:
-       - mysql-data:/var/lib/mysql
-       - ./mysql/dump:/dump
-       - ./mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf:ro
-     ports:
-      - "13306:3306"
-     environment:
-       MYSQL_ROOT_PASSWORD: rootp@ssw0rd
-       MYSQL_DATABASE: courses
-       MYSQL_USER: parser
-       MYSQL_PASSWORD: Admin123456
 
   node:
     build:
@@ -80,6 +58,8 @@ services:
       - redis-data:/data
     expose:
       - 6379
+    ports:
+      - "26379:6379"
     environment:
       REDIS_PASSWORD: kpaHqGrSvJf5TLCU
 

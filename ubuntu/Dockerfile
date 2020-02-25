@@ -28,11 +28,20 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 # Install Chrome.
 RUN apt-get update && apt-get -y install google-chrome-stable
 
-RUN apt-get install -y aptitude
-RUN aptitude install -y wine wine wine-development q4wine winetricks playonlinux
+RUN sudo dpkg --add-architecture i386 && sudo apt update
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND teletype
+RUN apt-get update -y && apt-get install -y --no-install-recommends apt-utils
+RUN ACCEPT_EULA=yes sudo apt-get install -y wine
+RUN sudo apt-get install -y wine-development q4wine winetricks playonlinux
+
+#RUN apt-get install -y aptitude
+#RUN aptitude install -y wine wine-development q4wine winetricks playonlinux
+
 # Add a user for running applications.
 RUN useradd apps
 RUN mkdir -p /home/apps && chown apps:apps /home/apps
 COPY bootstrap.sh /
+ADD ./data/wine32.tgz /home/apps/.wine32
 
 CMD '/bootstrap.sh'
